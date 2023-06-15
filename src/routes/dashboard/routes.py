@@ -5,12 +5,24 @@ import moment
 
 dashboard = Blueprint("dashboard", __name__)
 
+global_player_count = 0
+# Utils
+@dashboard.route('/DayZServlet/api/report_player_count', methods=['POST'])
+def report_player_count():
+    data = request.get_json()
+    player_count = data.get('player_count', 0)
+    
+    # save the player_count somewhere, e.g., a global variable or a database
+    global_player_count = player_count  # replace with actual method of storing the player count
+    
+    log("Dashboard", f"Received player count: {player_count}")
+    return jsonify({'status': 'success'}), 200
+
 @dashboard.route('/')
 def index():
     log("Dashboard", "Accessing index page")
-    # Get the data you need from the database
-    player_count = 0  # replace with your actual method for getting player count
 
+    player_count = global_player_count
     # Render a template with this data
     return render_template('index.html', player_count=player_count)
 
