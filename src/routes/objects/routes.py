@@ -7,7 +7,7 @@ objects = Blueprint("objects", __name__)
 def save_obj():
     oid = request.args.get('oid', None, str)
     if not oid:
-        log("OID incorrect")
+        log("/objects/save_obj/", f"Couldn't save tent object (ID was null)")
         return jsonify({'status': 'error', 'message': 'Missing object ID'}), 400
     
     data = request.json
